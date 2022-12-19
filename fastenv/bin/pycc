@@ -1,0 +1,3 @@
+#!/home/briodev/Public/Datawise/Web Dev/top2vec-fastapi/fastenv/bin/python3
+from numba.pycc import main
+main()
