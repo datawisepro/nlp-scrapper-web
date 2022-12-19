@@ -3,10 +3,11 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, BaseSettings
 from typing import List
 from top2vec import Top2Vec
+import uvicorn
 import numpy as np
 
 class Settings(BaseSettings):
-    model_name: str = "Dwise NLP API"
+    model_name: str = "Datawise NLP API"
     model_path: str = "models/top2vec_model_best"
 
 settings = Settings()
@@ -25,10 +26,11 @@ async def value_error_handler(request: Request, exc: ValueError):
     )
 
 # Determine top2vec index type
-if model.document_ids is np.str_:
-    doc_id_type = str
-else:
-    doc_id_type = int
+#if model.document_ids is np.str_:
+#    doc_id_type = str
+#else:
+#    doc_id_type = int
+doc_id_type = str
 
 # Determine if model has documents
 if model.documents is None:
@@ -78,6 +80,12 @@ class KeywordSearchWord(KerwordSearch):
 class WordResult(BaseModel):
     word: str
     score: float
+
+@app.get('/')
+@app.get('/home')
+def read_home():
+    """Home endpoint which can be used to test application availability."""
+    return {'message': 'System is healthy. Go to /docs to interact with endpoints'}
 
 @app.get("/topics/number", response_model=NumTopics, description="Returns number of topics in the model.",
          tags=["Topics"])
@@ -162,3 +170,6 @@ async def find_similar_words(keyword_search: KeywordSearchWord):
         word_results.append(WordResult(word=word, score=score))
 
     return word_results
+
+if __name__ == '__main__':
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
