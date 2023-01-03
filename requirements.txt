@@ -58,7 +58,6 @@ smart-open
 smmap
 sniffio
 starlette
-streamlit
 threadpoolctl
 toml
 toolz
