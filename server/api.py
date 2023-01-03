@@ -8,7 +8,7 @@ import numpy as np
 
 class Settings(BaseSettings):
     model_name: str = "Datawise NLP API"
-    model_path: str = "models/top2vec_model_best"
+    model_path: str = "models/top2vec_model2"
 
 settings = Settings()
 
